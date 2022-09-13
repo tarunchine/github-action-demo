@@ -40,4 +40,4 @@ jobs:
         uses: reedyuk/npm-version@1.1.1
         with:
           version: "${{ github.event.inputs.version}}"
-          git-tag-version: 'true'
+          git-tag-version: true
