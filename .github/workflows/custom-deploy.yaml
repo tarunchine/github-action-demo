@@ -1,4 +1,4 @@
-Name: Custom Deploy
+name: Custom Deploy
 
 on :
   workflow_dispatch:
