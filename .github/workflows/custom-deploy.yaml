@@ -9,7 +9,7 @@ on :
         required: true
         default: 'Testing'
       version:
-        description: Version (eg: v1)
+        description: 'Version (eg: v1)'
         required: true
 env:
  node-version: 14.x
