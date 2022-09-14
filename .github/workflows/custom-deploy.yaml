@@ -51,10 +51,10 @@ jobs:
           version: ${{ github.event.inputs.version}}
 
       - name: Read changelog
-          id: changelogAfter
-          uses: juliangruber/read-file-action@v1
-          with:
-            path: ./changelog.md
+        id: changelogAfter
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./changelog.md
 
       - name: Echo changelog
         run: echo "${{ steps.changelogAfter.outputs.content }}"
