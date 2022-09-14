@@ -85,7 +85,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           body: ${{ steps.extract-release-notes.outputs.release_notes }}
-          token: ${{ secrets.YOUR_GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.event.inputs.version }}
           name: "Release: ${{ github.event.inputs.version }}"
           draft: false
