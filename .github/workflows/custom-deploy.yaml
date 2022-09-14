@@ -36,10 +36,28 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
+      - name: Read changelog
+        id: changelogBefore
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./changelog.md
+
+      - name: Echo changelog
+        run: echo "${{ steps.changelogBefore.outputs.content }}"
+
       - name: Update changelog
         uses: thomaseizinger/keep-a-changelog-new-release@v1
         with:
           version: ${{ github.event.inputs.version}}
+
+      - name: Read changelog
+          id: changelogAfter
+          uses: juliangruber/read-file-action@v1
+          with:
+            path: ./changelog.md
+
+      - name: Echo changelog
+        run: echo "${{ steps.changelogAfter.outputs.content }}"
 
       - name: Extract release notes
         id: extract-release-notes
