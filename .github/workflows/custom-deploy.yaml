@@ -40,7 +40,7 @@ jobs:
         id: changelogBefore
         uses: juliangruber/read-file-action@v1
         with:
-          path: ./changelog.md
+          path: CHANGELOG.md
 
       - name: Echo changelog
         run: echo "${{ steps.changelogBefore.outputs.content }}"
@@ -54,7 +54,7 @@ jobs:
         id: changelogAfter
         uses: juliangruber/read-file-action@v1
         with:
-          path: ./changelog.md
+          path: CHANGELOG.md
 
       - name: Echo changelog
         run: echo "${{ steps.changelogAfter.outputs.content }}"
