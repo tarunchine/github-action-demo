@@ -36,11 +36,39 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
+      - name: Update changelog
+        uses: thomaseizinger/keep-a-changelog-new-release@v1
+        with:
+          tag: ${{ github.event.inputs.version}}
+
       - name: Extract release notes
         id: extract-release-notes
         uses: ffurrer2/extract-release-notes@v1
         with:
           changelog_file: CHANGELOG.md
+
       - name: Print release notes
         run: |
           echo "release notes: ${{ steps.extract-release-notes.outputs.release_notes }}"
+
+      - name: Bump version in package.json
+        run: npm version ${{ github.event.inputs.version }} --no-git-tag-version
+
+      - name: Commit changelog and manifest files
+        id: make-commit
+        run: |
+          git add CHANGELOG.md package.json
+          git commit --message "Prepare release ${{ github.event.inputs.version }}"
+          echo "::set-output name=commit::$(git rev-parse HEAD)"
+          git tag -m "Tagging a new version: ${{ github.event.inputs.version }}"
+          git push && git push --tags
+
+      - name: Create a new release
+        uses: ncipollo/release-action@v1
+        with:
+          body: ${{ steps.extract-release-notes.outputs.release_notes }}
+          token: ${{ secrets.YOUR_GITHUB_TOKEN }}
+          tag_name: ${{ github.event.inputs.version }}
+          release_name: "Release: ${{ github.event.inputs.version }}"
+          draft: false
+          prerelease: false
