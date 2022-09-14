@@ -86,7 +86,7 @@ jobs:
         with:
           body: ${{ steps.extract-release-notes.outputs.release_notes }}
           token: ${{ secrets.YOUR_GITHUB_TOKEN }}
-          tag_name: ${{ github.event.inputs.version }}
-          release_name: "Release: ${{ github.event.inputs.version }}"
+          tag: ${{ github.event.inputs.version }}
+          name: "Release: ${{ github.event.inputs.version }}"
           draft: false
           prerelease: false
