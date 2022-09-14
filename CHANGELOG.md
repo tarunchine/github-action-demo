@@ -6,8 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.4.0] - 2022-09-14
+
 ### Added
 
 -   LSF-4029: show small optimal delivery bar when the value is zero
 
-[Unreleased]: https://github.com/tarunchine/github-action-demo/compare/1.3.0...HEAD
+[Unreleased]: https://github.com/tarunchine/github-action-demo/compare/1.4.0...HEAD
+
+[1.4.0]: https://github.com/tarunchine/github-action-demo/compare/055e0b4534011ded8424dfddcf8c6cc102104489...1.4.0
