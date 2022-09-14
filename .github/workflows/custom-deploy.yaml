@@ -41,4 +41,6 @@ jobs:
         uses: ffurrer2/extract-release-notes@v1
         with:
           changelog_file: CHANGELOG.md
-          release_notes_file: RELEASE_NOTES.md
+      - name: Print release notes
+        run: |
+          echo "release notes: ${{ steps.extract-release-notes.outputs.release_notes }}"
