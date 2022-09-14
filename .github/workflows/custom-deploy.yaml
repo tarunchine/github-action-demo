@@ -36,8 +36,9 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
-      - name: 'change version'
-        uses: reedyuk/npm-version@1.1.1
+      - name: Extract release notes
+        id: extract-release-notes
+        uses: ffurrer2/extract-release-notes@v1
         with:
-          version: "${{ github.event.inputs.version}}"
-          git-tag-version: true
+          changelog_file: CHANGELOG.md
+          release_notes_file: RELEASE_NOTES.md
