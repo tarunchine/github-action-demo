@@ -90,3 +90,9 @@ jobs:
           name: "Release: ${{ github.event.inputs.version }}"
           draft: false
           prerelease: false
+      - name: Update Release Log
+        uses: DamianReeves/write-file-action@master
+        with:
+          path: RELEASELOG.md
+          contents: |
+            ### Version ${{ github.event.inputs.version }} deployed to ${{ github.event.inputs.environment }} by ${{ github.actor }}
