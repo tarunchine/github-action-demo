@@ -90,9 +90,13 @@ jobs:
           name: "Release: ${{ github.event.inputs.version }}"
           draft: false
           prerelease: false
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
       - name: Update Release Log
         uses: DamianReeves/write-file-action@master
         with:
           path: RELEASELOG.md
           contents: |
-            ### Version ${{ github.event.inputs.version }} deployed to ${{ github.event.inputs.environment }} by ${{ github.actor }}
+            ### ${{ steps.date.outputs.date }}: Version ${{ github.event.inputs.version }} deployed to ${{ github.event.inputs.environment }} by ${{ github.actor }}
