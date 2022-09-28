@@ -16,6 +16,9 @@ env:
 jobs:
   env_deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.event.inputs.environment }}
+      url: https://bylumuiportalpltna.azureedge.net/lsf-store-replenishment/
     steps:
       - name: Cancel previous runs
         uses: rokroskar/workflow-run-cleanup-action@master
