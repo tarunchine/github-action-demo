@@ -35,6 +35,8 @@ jobs:
         id: checkTag
         with:
           tag: ${{ github.event.inputs.version}}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -78,6 +80,6 @@ jobs:
       - uses: toko-bifrost/ms-teams-deploy-card@master
         if: always()
         with:
-          github-token: ${{ github.token }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           card-layout-exit: 'cozy'
           webhook-uri: "https://jda365.webhook.office.com/webhookb2/6366d704-047d-47bf-89bb-9b4849f802f5@2ac36cee-0617-4ac0-bebf-e1ce5dfab86c/IncomingWebhook/29c11d9edf884f75af71f92301e6d8d6/336f29b9-14a6-4ca1-977b-9c7e4881a6ad"
