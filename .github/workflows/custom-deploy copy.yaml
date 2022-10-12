@@ -1,4 +1,4 @@
-name: Custom Deploy
+name: Custom Deploy1
 
 on :
   workflow_dispatch:
@@ -31,10 +31,6 @@ jobs:
         with:
           node-version: ${{ env.node-version }}
 
-      - uses: mukunku/tag-exists-action@v1.0.0
-        id: checkTag
-        with:
-          tag: ${{ github.event.inputs.version}}
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -43,16 +39,38 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
+      - name: Read changelog
+        id: changelogBefore
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: CHANGELOG.md
+
+      - name: Echo changelog
+        run: echo "${{ steps.changelogBefore.outputs.content }}"
+
       - name: Update changelog
         uses: thomaseizinger/keep-a-changelog-new-release@v1
         with:
           version: ${{ github.event.inputs.version}}
+
+      - name: Read changelog
+        id: changelogAfter
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: CHANGELOG.md
+
+      - name: Echo changelog
+        run: echo "${{ steps.changelogAfter.outputs.content }}"
 
       - name: Extract release notes
         id: extract-release-notes
         uses: ffurrer2/extract-release-notes@v1
         with:
           changelog_file: CHANGELOG.md
+
+      - name: Print release notes
+        run: |
+          echo "release notes: ${{ steps.extract-release-notes.outputs.release_notes }}"
 
       - name: Bump version in package.json
         run: npm version ${{ github.event.inputs.version }} --no-git-tag-version
@@ -75,9 +93,13 @@ jobs:
           name: "Release: ${{ github.event.inputs.version }}"
           draft: false
           prerelease: false
-      - uses: toko-bifrost/ms-teams-deploy-card@master
-        if: always()
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
+      - name: Update Release Log
+        uses: DamianReeves/write-file-action@master
         with:
-          github-token: ${{ github.token }}
-          card-layout-exit: 'cozy'
-          webhook-uri: "https://jda365.webhook.office.com/webhookb2/6366d704-047d-47bf-89bb-9b4849f802f5@2ac36cee-0617-4ac0-bebf-e1ce5dfab86c/IncomingWebhook/29c11d9edf884f75af71f92301e6d8d6/336f29b9-14a6-4ca1-977b-9c7e4881a6ad"
+          path: RELEASELOG.md
+          contents: |
+            ### ${{ steps.date.outputs.date }}: Version ${{ github.event.inputs.version }} deployed to ${{ github.event.inputs.environment }} by ${{ github.actor }}
