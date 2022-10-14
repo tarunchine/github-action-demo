@@ -1,5 +1,7 @@
 # Getting Started with Create React App
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1381b47712df4f6f91c0424c315ba526)](https://app.codacy.com/gh/tarunchine/github-action-demo?utm_source=github.com&utm_medium=referral&utm_content=tarunchine/github-action-demo&utm_campaign=Badge_Grade_Settings)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
