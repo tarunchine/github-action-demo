@@ -38,13 +38,13 @@ jobs:
 
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v3
-          with:
-            fetch-depth: 0
+        with:
+          fetch-depth: 0
 
       - name: Update Changelog
         uses: thomaseizinger/keep-a-changelog-new-release@v1
-          with:
-            version: ${{ github.event.inputs.version}}
+        with:
+          version: ${{ github.event.inputs.version}}
 
       - name: Bump version in package.json
         run: npm version ${{ github.event.inputs.version }} --no-git-tag-version
@@ -59,16 +59,16 @@ jobs:
       - name: Extract changelog
         id: extract-release-notes
         uses: ffurrer2/extract-release-notes@v1
-          with:
-            changelog_file: CHANGELOG.md
+        with:
+          changelog_file: CHANGELOG.md
 
       - name: Create Pull Request with changelog
         uses: peter-evans/create-pull-request@v4
-          with:
-            branch: "version_${{ inputs.version }}"
-            delete-branch: true
-            add-paths: |
-              CHANGELOG.md
-              package.json
-            title: "Version ${{ inputs.version }}"
-            body: ${{ steps.extract-release-notes.outputs.release_notes }}
+        with:
+          branch: "version_${{ inputs.version }}"
+          delete-branch: true
+          add-paths: |
+            CHANGELOG.md
+            package.json
+          title: "Version ${{ inputs.version }}"
+          body: ${{ steps.extract-release-notes.outputs.release_notes }}
