@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2023.1.5] - 2023-01-27
+
 ## [2023.1.4] - 2023-01-27
 
 ### Added
@@ -18,6 +20,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 -   Updated the default number rows to display 50 results.
 -   Upgrade requirements (including fastAPI)
 
-[Unreleased]: https://github.com/tarunchine/github-action-demo/compare/2023.1.4...HEAD
+[Unreleased]: https://github.com/tarunchine/github-action-demo/compare/2023.1.5...HEAD
+
+[2023.1.5]: https://github.com/tarunchine/github-action-demo/compare/2023.1.4...2023.1.5
 
 [2023.1.4]: https://github.com/tarunchine/github-action-demo/compare/7bbc0816577d58d79a73fa29e116d6e3ed0d2abc...2023.1.4
