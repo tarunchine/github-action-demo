@@ -76,3 +76,15 @@ jobs:
           enable-review-diffs: false
           webhook-uri: "https://jda365.webhook.office.com/webhookb2/6366d704-047d-47bf-89bb-9b4849f802f5@2ac36cee-0617-4ac0-bebf-e1ce5dfab86c/IncomingWebhook/29c11d9edf884f75af71f92301e6d8d6/336f29b9-14a6-4ca1-977b-9c7e4881a6ad"
 
+      - name: Microsoft Teams Notification
+        uses: skitionek/notify-microsoft-teams@master
+        if: always()
+        with:
+          webhook_url: "https://jda365.webhook.office.com/webhookb2/6366d704-047d-47bf-89bb-9b4849f802f5@2ac36cee-0617-4ac0-bebf-e1ce5dfab86c/IncomingWebhook/29c11d9edf884f75af71f92301e6d8d6/336f29b9-14a6-4ca1-977b-9c7e4881a6ad"
+          raw: >-
+            {
+              "@type": "MessageCard",
+              "@context": "http://schema.org/extensions",
+              "title": "No ${variables} avaliable in here"
+            }
+
