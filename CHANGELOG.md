@@ -6,17 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.4.0] - 2023-01-27
+
 ### Added
 
-- Add a filter to the Overview page that shows if the VascoDB is running in Snowflake or Exasol. 
-- Added data generators for cypress tests
-
+-   Add a filter to the Overview page that shows if the VascoDB is running in Snowflake or Exasol. 
+-   Added data generators for cypress tests
 
 ### Changed
 
-- Updated the default number rows to display 50 results.
-- Upgrade requirements (including fastAPI)
-
+-   Updated the default number rows to display 50 results.
+-   Upgrade requirements (including fastAPI)
 
 ## [3.3.0] - 2022-10-12
 
@@ -34,7 +34,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   LSF-4029: show small optimal delivery bar when the value is zero
 
-[Unreleased]: https://github.com/tarunchine/github-action-demo/compare/3.3.0...HEAD
+[Unreleased]: https://github.com/tarunchine/github-action-demo/compare/3.4.0...HEAD
+
+[3.4.0]: https://github.com/tarunchine/github-action-demo/compare/3.3.0...3.4.0
 
 [3.3.0]: https://github.com/tarunchine/github-action-demo/compare/3.1.0...3.3.0
 
