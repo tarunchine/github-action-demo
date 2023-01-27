@@ -32,6 +32,11 @@ jobs:
             exit 1
           fi
 
+      - name: Checkout ${{ github.repository }}
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
       - name: Check if tag already exist
         run: |
           if [ $(git tag -l "v${{ inputs.version }}") ]; then
@@ -40,11 +45,6 @@ jobs:
           else
             exit 0
           fi
-
-      - name: Checkout ${{ github.repository }}
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       - name: Tag & Upload version commit
         run: |
@@ -85,6 +85,7 @@ jobs:
             {
               "@type": "MessageCard",
               "@context": "http://schema.org/extensions",
-              "title": "No avaliable in here"
+              "title": "No avaliable in here",
+              "summary":"Pipeline failed!"
             }
 

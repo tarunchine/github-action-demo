@@ -26,7 +26,12 @@ jobs:
           else
             exit 1
           fi
-
+          
+      - name: Checkout ${{ github.repository }}
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+        
       - name: Check if tag already exist
         run: |
           if [ $(git tag -l "v${{ inputs.version }}") ]; then
@@ -35,11 +40,6 @@ jobs:
           else
             exit 0
           fi
-
-      - name: Checkout ${{ github.repository }}
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       - name: Update Changelog
         uses: thomaseizinger/keep-a-changelog-new-release@v1
