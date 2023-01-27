@@ -17,5 +17,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 -   Upgrade requirements (including fastAPI)
 
 
-[Unreleased]: https://github.com/tarunchine/github-action-demo/compare/v3.5.0...HEAD
+[Unreleased]: https://github.com/tarunchine/github-action-demo/compare/main...HEAD
 
