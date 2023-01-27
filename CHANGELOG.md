@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2023.1.1] - 2023-01-27
+
 ## [v3.5.0] - 2023-01-27
 
 ## [3.4.0] - 2023-01-27
@@ -36,7 +38,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   LSF-4029: show small optimal delivery bar when the value is zero
 
-[Unreleased]: https://github.com/tarunchine/github-action-demo/compare/v3.5.0...HEAD
+[Unreleased]: https://github.com/tarunchine/github-action-demo/compare/2023.1.1...HEAD
+
+[2023.1.1]: https://github.com/tarunchine/github-action-demo/compare/v3.5.0...2023.1.1
 
 [v3.5.0]: https://github.com/tarunchine/github-action-demo/compare/3.4.0...v3.5.0
 
