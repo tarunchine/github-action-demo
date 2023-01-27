@@ -63,5 +63,5 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           body: ${{ steps.extract-release-notes.outputs.release_notes }}
-          tag: $v{{ steps.extract-from-pr.outputs.version }}
+          tag: 'v${{ steps.extract-from-pr.outputs.version }}'
           name: "Release: ${{ steps.extract-from-pr.outputs.version }}"
