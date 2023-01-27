@@ -63,8 +63,8 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           body: ${{ steps.extract-release-notes.outputs.release_notes }}
-          tag: ${{ github.event.inputs.version }}
-          name: "Release: ${{ github.event.inputs.version }}"
+          tag: ${{ steps.extract-from-pr.outputs.version }}
+          name: "Release: ${{ steps.extract-from-pr.outputs.version }}"
 
       - name: Send team's notification
         uses: toko-bifrost/ms-teams-deploy-card@master
