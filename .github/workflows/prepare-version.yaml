@@ -26,4 +26,49 @@ jobs:
           else
             exit 1
           fi
-      
+
+      - name: Check if tag already exist
+        run: |
+          if [ $(git tag -l "v${{ inputs.version }}") ]; then
+            echo "Tag already exists!"
+            exit 1
+          else
+            exit 0
+          fi
+
+      - name: Checkout ${{ github.repository }}
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Update Changelog
+        uses: thomaseizinger/keep-a-changelog-new-release@v1
+          with:
+            version: ${{ github.event.inputs.version}}
+
+      - name: Bump version in package.json
+        run: npm version ${{ github.event.inputs.version }} --no-git-tag-version
+
+      - name: Commit changelog and manifest files
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add CHANGELOG.md package.json
+          git commit --message "Prepare version ${{ github.event.inputs.version }}"
+
+      - name: Extract changelog
+        id: extract-release-notes
+          uses: ffurrer2/extract-release-notes@v1
+          with:
+            changelog_file: CHANGELOG.md
+
+      - name: Create Pull Request with changelog
+        uses: peter-evans/create-pull-request@v4
+          with:
+            branch: "version_${{ inputs.version }}"
+            delete-branch: true
+            add-paths: |
+              CHANGELOG.md
+              package.json
+            title: "Version ${{ inputs.version }}"
+            body: ${{ steps.extract-release-notes.outputs.release_notes }}
