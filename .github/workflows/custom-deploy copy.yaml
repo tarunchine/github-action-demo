@@ -68,11 +68,11 @@ jobs:
       - name: Echo changelog
         run: echo "${{ steps.changelogAfter.outputs.content }}"
 
-      - name: Extract release notes
-        id: extract-release-notes
-        uses: ffurrer2/extract-release-notes@v1
-        with:
-          changelog_file: CHANGELOG.md
+      # - name: Extract release notes
+      #   id: extract-release-notes
+      #   uses: ffurrer2/extract-release-notes@v1
+      #   with:
+      #     changelog_file: CHANGELOG.md
 
       - name: Extract release notes
         id: extract-release-notes
