@@ -48,16 +48,16 @@ jobs:
       - name: Echo changelog
         run: echo "${{ steps.changelogBefore.outputs.content }}"
 
-      # - name: Update changelog
-      #   uses: thomaseizinger/keep-a-changelog-new-release@v1
-      #   with:
-      #     version: ${{ github.event.inputs.version}}
-
-      - name: Finalize changelog entry
-        uses: stefanzweifel/changelog-updater-action@v1
-        id: "update-changelog"
+      - name: Update changelog
+        uses: thomaseizinger/keep-a-changelog-new-release@v1
         with:
-          latest-version: ${{ github.event.inputs.version}}
+          version: ${{ github.event.inputs.version}}
+
+      # - name: Finalize changelog entry
+      #   uses: stefanzweifel/changelog-updater-action@v1
+      #   id: "update-changelog"
+      #   with:
+      #     latest-version: ${{ github.event.inputs.version}}
 
       - name: Read changelog
         id: changelogAfter
@@ -73,6 +73,13 @@ jobs:
         uses: ffurrer2/extract-release-notes@v1
         with:
           changelog_file: CHANGELOG.md
+
+      - name: Extract release notes
+        id: extract-release-notes
+        uses: yashanand1910/standard-release-notes@v1.2.1
+=       with:
+          changelog_path: ./CHANGELOG.md # Optional
+          version: ${{ github.event.inputs.version}} # Required
 
       - name: Print release notes
         run: |
