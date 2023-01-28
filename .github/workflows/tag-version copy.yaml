@@ -1,37 +1,42 @@
-name: Prepare Version
+name: Tag Version
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version (eg: 2023.1.1)'
-        required: true
-        type: string
+  pull_request:
+    types:
+      - closed
+    paths:
+      - 'CHANGELOG.md'
 
 concurrency:
-  group: prepare-version
+  group: tag-version
   cancel-in-progress: true
 
 jobs:
-  prepare_version:
-    name: Build Version
+  tag_version:
+    name: Tag Version
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'Version 20')
 
     steps:
+      - name: Extract Version and changelog from Pull request
+        id: extract-from-pr
+        run: |
+          echo "version=$(echo "${{ github.event.pull_request.title }}" | cut -c 9-20)" >> $GITHUB_OUTPUT
+          
       - name: Check version format
         run: |
-          if [[ ${{ inputs.version }} =~ ^20[0-9][0-9]\.[0-9]\.[1-9][0-9]*$ ]]; 
+          if [[ ${{ steps.extract-from-pr.outputs.version }} =~ ^20[0-9][0-9]\.[0-9]\.[1-9][0-9]*$ ]]; 
           then
             exit 0
           else
             exit 1
           fi
-          
+
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-        
+
       - name: Check if tag already exist
         run: |
           if [ $(git tag -l "v${{ inputs.version }}") ]; then
@@ -41,22 +46,14 @@ jobs:
             exit 0
           fi
 
-      - name: Update Changelog
-        uses: thomaseizinger/keep-a-changelog-new-release@v1
-        with:
-          tag: 'v${{ github.event.inputs.version}}'
-
-      - name: Bump version in package.json
-        run: npm version ${{ github.event.inputs.version }} --no-git-tag-version
-
-      - name: Commit changelog and manifest files
+      - name: Tag & Upload version commit
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add CHANGELOG.md package.json
-          git commit --message "Prepare version ${{ github.event.inputs.version }}"
+          git tag -a v${{ steps.extract-from-pr.outputs.version }} -m "Version ${{ steps.extract-from-pr.outputs.version }}"
+          git push origin v${{ steps.extract-from-pr.outputs.version }}
 
-      - name: Extract changelog
+      - name: Extract release notes
         id: extract-release-notes
         uses: ffurrer2/extract-release-notes@v1
         with:
@@ -72,13 +69,9 @@ jobs:
       # - name: Echo notes
       #   run: echo "${{join(fromJson(steps.generate_notes.outputs.notes).notes, '')}}"
 
-      - name: Create Pull Request with changelog
-        uses: peter-evans/create-pull-request@v4
+      - name: Create a new release
+        uses: ncipollo/release-action@v1
         with:
-          branch: "version_${{ inputs.version }}"
-          delete-branch: true
-          add-paths: |
-            CHANGELOG.md
-            package.json
-          title: "Version ${{ inputs.version }}"
           body: ${{ steps.extract-release-notes.outputs.release_notes }}
+          tag: 'v${{ steps.extract-from-pr.outputs.version }}'
+          name: "Release: ${{ steps.extract-from-pr.outputs.version }}"
