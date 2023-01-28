@@ -1,0 +1,17 @@
+name: trying
+
+on:
+  workflow_dispatch
+
+jobs:
+  name: Try
+  runs-on: ubuntu-latest
+  steps:
+    - name: Get notes
+      id: generate_notes
+      uses: anmarkoulis/commitizen-changelog-reader@master
+      with:
+        tag_name: ${{ github.ref }}
+        changelog: CHANGELOG.md
+    - name: Echo notes
+        run: echo "${{join(fromJson(steps.generate_notes.outputs.notes).notes, '')}}"
