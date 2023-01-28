@@ -12,7 +12,7 @@ jobs:
         uses: jdcargile/ms-teams-notification@v1.3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          ms-teams-webhook-uri: "https://jda365.webhook.office.com/webhookb2/6366d704-047d-47bf-89bb-9b4849f802f5@2ac36cee-0617-4ac0-bebf-e1ce5dfab86c/IncomingWebhook/29c11d9edf884f75af71f92301e6d8d6/336f29b9-14a6-4ca1-977b-9c7e4881a6ad"
+          ms-teams-webhook-uri: "https://jda365.webhook.office.com/webhookb2/6366d704-047d-47bf-89bb-9b4849f802f5@2ac36cee-0617-4ac0-bebf-e1ce5dfab86c/IncomingWebhook/b38c6e0ed11f4fff822f63d116896b98/336f29b9-14a6-4ca1-977b-9c7e4881a6ad"
           notification-summary: Your custom notification message 
           notification-color: 17a2b8
           timezone: America/Denver
@@ -20,7 +20,7 @@ jobs:
       - name: 📣 Send teams notification
         uses: simbo/msteams-message-card-action@latest
         with:
-          webhook: "https://jda365.webhook.office.com/webhookb2/6366d704-047d-47bf-89bb-9b4849f802f5@2ac36cee-0617-4ac0-bebf-e1ce5dfab86c/IncomingWebhook/29c11d9edf884f75af71f92301e6d8d6/336f29b9-14a6-4ca1-977b-9c7e4881a6ad"
+          webhook: "https://jda365.webhook.office.com/webhookb2/6366d704-047d-47bf-89bb-9b4849f802f5@2ac36cee-0617-4ac0-bebf-e1ce5dfab86c/IncomingWebhook/9f2c380bd65a4ca88e2821f6e3ff52a5/336f29b9-14a6-4ca1-977b-9c7e4881a6ad"
           title: <h2>New Version Released</h2>
           message: <p>Details of the new version</p>
           color: ff69b4
