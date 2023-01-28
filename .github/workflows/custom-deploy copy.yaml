@@ -48,10 +48,16 @@ jobs:
       - name: Echo changelog
         run: echo "${{ steps.changelogBefore.outputs.content }}"
 
-      - name: Update changelog
-        uses: thomaseizinger/keep-a-changelog-new-release@v1
+      # - name: Update changelog
+      #   uses: thomaseizinger/keep-a-changelog-new-release@v1
+      #   with:
+      #     version: ${{ github.event.inputs.version}}
+
+      - name: Finalize changelog entry
+        uses: stefanzweifel/changelog-updater-action@v1
+        id: "update-changelog"
         with:
-          version: ${{ github.event.inputs.version}}
+          latest-version: ${{ github.event.inputs.version}}
 
       - name: Read changelog
         id: changelogAfter
