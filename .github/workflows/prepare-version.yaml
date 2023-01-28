@@ -56,11 +56,21 @@ jobs:
           git add CHANGELOG.md package.json
           git commit --message "Prepare version ${{ github.event.inputs.version }}"
 
-      - name: Extract changelog
-        id: extract-release-notes
-        uses: ffurrer2/extract-release-notes@v1
+      # - name: Extract changelog
+      #   id: extract-release-notes
+      #   uses: ffurrer2/extract-release-notes@v1
+      #   with:
+      #     changelog_file: CHANGELOG.md
+
+      - name: Extract release notes via diff method
+        id: generate_notes
+        uses: anmarkoulis/commitizen-changelog-reader@master
         with:
-          changelog_file: CHANGELOG.md
+          tag_name: "refs/tags/v${{ inputs.version }}"
+          changelog: CHANGELOG.md
+
+      - name: Echo notes
+        run: echo "${{join(fromJson(steps.generate_notes.outputs.notes).notes, '')}}"
 
       - name: Create Pull Request with changelog
         uses: peter-evans/create-pull-request@v4
@@ -71,4 +81,4 @@ jobs:
             CHANGELOG.md
             package.json
           title: "Version ${{ inputs.version }}"
-          body: ${{ steps.extract-release-notes.outputs.release_notes }}
+          body: ${{join(fromJson(steps.generate_notes.outputs.notes).notes, '')}}
