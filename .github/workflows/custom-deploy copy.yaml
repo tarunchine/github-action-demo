@@ -77,7 +77,7 @@ jobs:
       - name: Extract release notes
         id: extract-release-notes
         uses: yashanand1910/standard-release-notes@v1.2.1
-=       with:
+        with:
           changelog_path: ./CHANGELOG.md # Optional
           version: ${{ github.event.inputs.version}} # Required
 
