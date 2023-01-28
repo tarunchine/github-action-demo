@@ -1,13 +1,7 @@
 name: Check notification
 
 on:
-  workflow_dispatch:
-    inputs:
-      environment:
-        type: environment
-        description: Environment
-        required: true
-        default: 'Testing'
+  workflow_dispatch
 
 jobs:
   notify:
