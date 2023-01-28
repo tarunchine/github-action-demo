@@ -14,4 +14,4 @@ jobs:
         tag_name: ${{ github.ref }}
         changelog: CHANGELOG.md
     - name: Echo notes
-        run: echo "${{join(fromJson(steps.generate_notes.outputs.notes).notes, '')}}"
+      run: echo "${{join(fromJson(steps.generate_notes.outputs.notes).notes, '')}}"
