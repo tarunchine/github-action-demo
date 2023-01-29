@@ -78,8 +78,7 @@ jobs:
 
       - name: 📣 Send teams notification about new Release
         uses: simbo/msteams-message-card-action@latest
-        if: ${{ failure() }}
-        
+        if: ${{ failure() }} 
         with:
           webhook: "https://jda365.webhook.office.com/webhookb2/6366d704-047d-47bf-89bb-9b4849f802f5@2ac36cee-0617-4ac0-bebf-e1ce5dfab86c/IncomingWebhook/9f2c380bd65a4ca88e2821f6e3ff52a5/336f29b9-14a6-4ca1-977b-9c7e4881a6ad"
           color: dc3545
@@ -99,4 +98,4 @@ jobs:
           sections: |
             -
               activityTitle: Changelog
-              text: `${{ steps.extract-release-notes.outputs.release_notes }}`
+              text: "${{ steps.extract-release-notes.outputs.release_notes }}"
