@@ -98,4 +98,4 @@ jobs:
           sections: |
             -
               activityTitle: Changelog
-              text: "${{ steps.extract-release-notes.outputs.release_notes }}"
+              text: ${{ steps.extract-release-notes.outputs.release_notes }}
