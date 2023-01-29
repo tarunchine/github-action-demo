@@ -75,3 +75,26 @@ jobs:
           body: ${{ steps.extract-release-notes.outputs.release_notes }}
           tag: 'v${{ steps.extract-from-pr.outputs.version }}'
           name: "Release: ${{ steps.extract-from-pr.outputs.version }}"
+
+      - name: 📣 Send teams notification about new Release
+        uses: simbo/msteams-message-card-action@latest
+        if: failed()
+        with:
+          webhook: "https://jda365.webhook.office.com/webhookb2/6366d704-047d-47bf-89bb-9b4849f802f5@2ac36cee-0617-4ac0-bebf-e1ce5dfab86c/IncomingWebhook/9f2c380bd65a4ca88e2821f6e3ff52a5/336f29b9-14a6-4ca1-977b-9c7e4881a6ad"
+          title: <h2>Released failed for version ${{ steps.extract-from-pr.outputs.version }}</h2>
+
+      - name: 📣 Send teams notification about new Release
+        uses: simbo/msteams-message-card-action@latest
+        if: success()
+        with:
+          webhook: "https://jda365.webhook.office.com/webhookb2/6366d704-047d-47bf-89bb-9b4849f802f5@2ac36cee-0617-4ac0-bebf-e1ce5dfab86c/IncomingWebhook/9f2c380bd65a4ca88e2821f6e3ff52a5/336f29b9-14a6-4ca1-977b-9c7e4881a6ad"
+          title: <h2>Version ${{ steps.extract-from-pr.outputs.version }} Released</h2>
+          message: <p>Details of the new version</p>
+          color: ff69b4
+          buttons: |
+            View Repo https://github.com/tarunchine/github-action-demo
+            View Release logs https://somewhere.com/bar/
+          sections: |
+            -
+              activityTitle: Changelog
+              text: ${{ steps.extract-release-notes.outputs.release_notes }}

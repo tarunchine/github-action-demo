@@ -25,8 +25,9 @@ jobs:
           message: <p>Details of the new version</p>
           color: ff69b4
           buttons: |
-            Click here! https://whatever.com/foo/
-            Or here… https://somewhere.com/bar/
+            View Repo https://whatever.com/foo/
+            View Release logs https://somewhere.com/bar/
+            
           sections: |
             -
               activityTitle: David Claux
