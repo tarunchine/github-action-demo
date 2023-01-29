@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2023.4.2] - 2023-01-29
+
 ### Added
 
 -   Add a filter to the Overview page that shows if the VascoDB is running in Snowflake or Exasol. 
@@ -78,7 +80,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 -   Updated the default number rows to display 50 results.
 -   Upgrade requirements (including fastAPI)
 
-[Unreleased]: https://github.com/tarunchine/github-action-demo/compare/v2023.4.1...HEAD
+[Unreleased]: https://github.com/tarunchine/github-action-demo/compare/v2023.4.2...HEAD
+
+[2023.4.2]: https://github.com/tarunchine/github-action-demo/compare/v2023.4.1...v2023.4.2
 
 [2023.4.1]: https://github.com/tarunchine/github-action-demo/compare/v2023.3.9...v2023.4.1
 
