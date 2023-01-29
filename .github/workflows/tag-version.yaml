@@ -82,15 +82,15 @@ jobs:
         with:
           webhook: "https://jda365.webhook.office.com/webhookb2/6366d704-047d-47bf-89bb-9b4849f802f5@2ac36cee-0617-4ac0-bebf-e1ce5dfab86c/IncomingWebhook/9f2c380bd65a4ca88e2821f6e3ff52a5/336f29b9-14a6-4ca1-977b-9c7e4881a6ad"
           color: dc3545
-          title: <h2>Released failed for version <b>${{ steps.extract-from-pr.outputs.version }}</b></h2>
+          title: <p>Released failed for version <h2>${{ steps.extract-from-pr.outputs.version }}</h2></p>
 
       - name: 📣 Send teams notification about new Release
         uses: simbo/msteams-message-card-action@latest
         if: ${{ success() }}
         with:
           webhook: "https://jda365.webhook.office.com/webhookb2/6366d704-047d-47bf-89bb-9b4849f802f5@2ac36cee-0617-4ac0-bebf-e1ce5dfab86c/IncomingWebhook/9f2c380bd65a4ca88e2821f6e3ff52a5/336f29b9-14a6-4ca1-977b-9c7e4881a6ad"
-          title: <h2>Version <b>${{ steps.extract-from-pr.outputs.version }}</b> Released</h2>
-          message: <p>${{ steps.extract-release-notes.outputs.release_notes }}</p>
+          title: <p>Version <h2>${{ steps.extract-from-pr.outputs.version }}</h2> Released</p>
+          message: ${{ steps.extract-release-notes.outputs.release_notes }}
           color: 28a745
           buttons: |
             View Repo https://github.com/tarunchine/github-action-demo
