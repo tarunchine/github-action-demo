@@ -17,23 +17,24 @@ concurrency:
   group: tag-version
   cancel-in-progress: true
 
+env:
+  version: ""
+
 jobs:    
   tag_version:
     name: Tag Version
     runs-on: ubuntu-latest
-    env:
-      VERSION: ''
     steps:
       - name: Get Version from pull request
         if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'Version 20')
         shell: bash
         run: |
-          echo "$(echo "${{ github.event.pull_request.title }}" | cut -c 9-20)" >> $VERSION
+          echo "version=$(echo "${{ github.event.pull_request.title }}" | cut -c 9-20)" >> $GITHUB_ENV
       - name: Get Version from Input
         if: github.event.inputs.version
         shell: bash
         run: |
-          echo "${{ inputs.version }}" >> $VERSION
+          echo "version=${{ inputs.version }}" >> $GITHUB_ENV
       - name: echo Version
         run: |
-          echo "$VERSION"
+          echo "$GITHUB_ENV"
