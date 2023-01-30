@@ -36,7 +36,7 @@ jobs:
       - name: echo Version
         run: |
           echo ${{ toJson(github) }}
-          echo ${{ env.version }}
+          echo ${{ toJson($GITHUB.ENV) }}
       # - name: Extract Version and changelog from Pull request
       #   id: extract-from-pr
       #   run: |
