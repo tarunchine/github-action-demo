@@ -32,7 +32,7 @@ jobs:
         if: github.event.inputs.version
         shell: bash
         run: |
-          echo "version=${{ inputs.version }} >> $GITHUB.ENV
+          echo "version=${{ inputs.version }}" >> $GITHUB.ENV
       - name: echo Version
         run: |
           echo ${{ toJson(github) }}
