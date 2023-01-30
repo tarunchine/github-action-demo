@@ -35,8 +35,8 @@ jobs:
           echo "version=${{ inputs.version }} >> $GITHUB.ENV
       - name: echo Version
         run: |
-          echo ${{ github.event }}
-          echo $GITHUB.ENV
+          echo ${{ toJson(github) }}
+          echo ${{ toJson(env) }}
       # - name: Extract Version and changelog from Pull request
       #   id: extract-from-pr
       #   run: |
