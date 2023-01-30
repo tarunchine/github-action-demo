@@ -22,6 +22,7 @@ jobs:
     name: Tag Version
     runs-on: ubuntu-latest
     steps:
+
       - name: Get Version from pull request
         if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'Version 20')
         shell: bash
@@ -34,6 +35,7 @@ jobs:
           echo "version=${{ inputs.version }} >> $GITHUB.ENV
       - name: echo Version
         run: |
+          echo ${{ github.event }}
           echo $GITHUB.ENV
       # - name: Extract Version and changelog from Pull request
       #   id: extract-from-pr
