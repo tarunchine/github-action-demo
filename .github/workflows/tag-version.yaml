@@ -29,14 +29,14 @@ jobs:
         run: |
           echo "version=$(echo "${{ github.event.pull_request.title }}" | cut -c 9-20)" >> $GITHUB.ENV
       - name: Get Version from Input
-        if: github.event.workflow_dispatch
+        if: github.event.inputs.version
         shell: bash
         run: |
           echo "version=${{ inputs.version }} >> $GITHUB.ENV
       - name: echo Version
         run: |
           echo ${{ toJson(github) }}
-          echo ${{ toJson(env) }}
+          echo ${{ env }}
       # - name: Extract Version and changelog from Pull request
       #   id: extract-from-pr
       #   run: |
