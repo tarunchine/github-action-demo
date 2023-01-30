@@ -17,12 +17,14 @@ concurrency:
   group: tag-version
   cancel-in-progress: true
 
+env:
+  NPM_TOKEN: "tarun"
+
 jobs:    
   tag_version:
     name: Tag Version
     runs-on: ubuntu-latest
     steps:
-
       - name: Get Version from pull request
         if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'Version 20')
         shell: bash
@@ -35,5 +37,4 @@ jobs:
           echo "version=${{ inputs.version }}" >> $GITHUB_ENV
       - name: echo Version
         run: |
-          echo ${{ toJson(github) }}
           echo "$GITHUB_ENV"
