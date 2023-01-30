@@ -1,6 +1,6 @@
 {
   "name": "github-action-demo",
-  "version": "2023.4.2",
+  "version": "2023.4.3",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
