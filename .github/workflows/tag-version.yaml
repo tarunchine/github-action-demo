@@ -1,6 +1,12 @@
 name: Tag Version
 
 on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version (eg: 2023.1.1)'
+        required: true
+        type: string
   pull_request:
     types:
       - closed
@@ -12,88 +18,95 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  tag_version:
-    name: Tag Version
-    runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'Version 20')
+  get_version:
+    name: Get Version
+    shell: bash
+    run: |
+      if [[ ${{ github.event.pull_request.merged }} == true && ${{ startsWith(github.event.pull_request.title, 'Version 20')}} ]]; 
+      then
+        echo "version=$(echo "${{ github.event.pull_request.title }}" | cut -c 9-20)" >> $GITHUB.ENV
+      elif [[ ${{ inputs.version }} ]]; then
+          echo "version=${{ inputs.version }}" >> $GITHUB.ENV
+      else
+        exit 1
+      fi
 
-    steps:
-      - name: Extract Version and changelog from Pull request
-        id: extract-from-pr
-        run: |
-          echo "version=$(echo "${{ github.event.pull_request.title }}" | cut -c 9-20)" >> $GITHUB_OUTPUT
+      echo ${{ $GITHUB.ENV }}
+  # tag_version:
+  #   name: Tag Version
+  #   runs-on: ubuntu-latest
+  #   if: (github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'Version 20')) || 
+  #   steps:
+  #     - name: Extract Version and changelog from Pull request
+  #       id: extract-from-pr
+  #       run: |
+  #         echo "version=$(echo "${{ github.event.pull_request.title }}" | cut -c 9-20)" >> $GITHUB_OUTPUT
           
-      - name: Check version format
-        run: |
-          if [[ ${{ steps.extract-from-pr.outputs.version }} =~ ^20[0-9][0-9]\.[0-9]\.[1-9][0-9]*$ ]]; 
-          then
-            exit 0
-          else
-            exit 1
-          fi
+  #     - name: Check version format
+  #       run: |
+  #         if [[ ${{ steps.extract-from-pr.outputs.version }} =~ ^20[0-9][0-9]\.[0-9]\.[1-9][0-9]*$ ]]; 
+  #         then
+  #           exit 0
+  #         else
+  #           exit 1
+  #         fi
 
-      - name: Checkout ${{ github.repository }}
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+  #     - name: Checkout ${{ github.repository }}
+  #       uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Check if tag already exist
-        run: |
-          if [ $(git tag -l "v${{ inputs.version }}") ]; then
-            echo "Tag already exists!"
-            exit 1
-          else
-            exit 0
-          fi
+  #     - name: Check if tag already exist
+  #       run: |
+  #         if [ $(git tag -l "v${{ inputs.version }}") ]; then
+  #           echo "Tag already exists!"
+  #           exit 1
+  #         else
+  #           exit 0
+  #         fi
 
-      - name: Tag & Upload version commit
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git tag -a v${{ steps.extract-from-pr.outputs.version }} -m "Version ${{ steps.extract-from-pr.outputs.version }}"
-          git push origin v${{ steps.extract-from-pr.outputs.version }}
+  #     - name: Tag & Upload version commit
+  #       run: |
+  #         git config user.name github-actions
+  #         git config user.email github-actions@github.com
+  #         git tag -a v${{ steps.extract-from-pr.outputs.version }} -m "Version ${{ steps.extract-from-pr.outputs.version }}"
+  #         git push origin v${{ steps.extract-from-pr.outputs.version }}
 
-      - name: Extract release notes
-        id: extract-release-notes
-        uses: ffurrer2/extract-release-notes@v1
-        with:
-          changelog_file: CHANGELOG.md
+  #     - name: Extract release notes
+  #       id: extract-release-notes
+  #       uses: ffurrer2/extract-release-notes@v1
+  #       with:
+  #         changelog_file: CHANGELOG.md
 
-      # - name: Extract release notes via diff method
-      #   id: generate_notes
-      #   uses: anmarkoulis/commitizen-changelog-reader@master
-      #   with:
-      #     tag_name: "refs/tags/v${{ inputs.version }}"
-      #     changelog: CHANGELOG.md
+  #     - name: Create a new release
+  #       uses: ncipollo/release-action@v1
+  #       with:
+  #         body: ${{ steps.extract-release-notes.outputs.release_notes }}
+  #         tag: 'v${{ steps.extract-from-pr.outputs.version }}'
+  #         name: "Release: ${{ steps.extract-from-pr.outputs.version }}"
 
-      # - name: Echo notes
-      #   run: echo "${{join(fromJson(steps.generate_notes.outputs.notes).notes, '')}}"
+  #     - name: 📣 Send teams notification about new Release
+  #       uses: simbo/msteams-message-card-action@latest
+  #       if: ${{ failure() }} 
+  #       with:
+  #         webhook: "https://jda365.webhook.office.com/webhookb2/6366d704-047d-47bf-89bb-9b4849f802f5@2ac36cee-0617-4ac0-bebf-e1ce5dfab86c/IncomingWebhook/9f2c380bd65a4ca88e2821f6e3ff52a5/336f29b9-14a6-4ca1-977b-9c7e4881a6ad"
+  #         color: dc3545
+  #         title: Released failed for version <h2>${{ steps.extract-from-pr.outputs.version }}</h2>
+  #         message: ${{ steps.extract-release-notes.outputs.release_notes }}
+  #         buttons: |
+  #           View Repo ${{ github.server_url }}/${{ github.repository }}
+  #           View Workflow ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
-      - name: Create a new release
-        uses: ncipollo/release-action@v1
-        with:
-          body: ${{ steps.extract-release-notes.outputs.release_notes }}
-          tag: 'v${{ steps.extract-from-pr.outputs.version }}'
-          name: "Release: ${{ steps.extract-from-pr.outputs.version }}"
-
-      - name: 📣 Send teams notification about new Release
-        uses: simbo/msteams-message-card-action@latest
-        if: ${{ failure() }} 
-        with:
-          webhook: "https://jda365.webhook.office.com/webhookb2/6366d704-047d-47bf-89bb-9b4849f802f5@2ac36cee-0617-4ac0-bebf-e1ce5dfab86c/IncomingWebhook/9f2c380bd65a4ca88e2821f6e3ff52a5/336f29b9-14a6-4ca1-977b-9c7e4881a6ad"
-          color: dc3545
-          title: Released failed for version <h2>${{ steps.extract-from-pr.outputs.version }}</h2>
-
-      - name: 📣 Send teams notification about new Release
-        uses: simbo/msteams-message-card-action@latest
-        if: ${{ success() }}
-        with:
-          webhook: "https://jda365.webhook.office.com/webhookb2/6366d704-047d-47bf-89bb-9b4849f802f5@2ac36cee-0617-4ac0-bebf-e1ce5dfab86c/IncomingWebhook/9f2c380bd65a4ca88e2821f6e3ff52a5/336f29b9-14a6-4ca1-977b-9c7e4881a6ad"
-          title: Version <h2>${{ steps.extract-from-pr.outputs.version }}</h2> Released
-          message: ${{ steps.extract-release-notes.outputs.release_notes }}
-          color: 28a745
-          buttons: |
-            View Repo ${{ github.server_url }}/${{ github.repository }}
-            View Release logs ${{ github.server_url }}/${{ github.repository }}/releases/tag/v${{steps.extract-from-pr.outputs.version}}
-            View Workflow ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+  #     - name: 📣 Send teams notification about new Release
+  #       uses: simbo/msteams-message-card-action@latest
+  #       if: ${{ success() }}
+  #       with:
+  #         webhook: "https://jda365.webhook.office.com/webhookb2/6366d704-047d-47bf-89bb-9b4849f802f5@2ac36cee-0617-4ac0-bebf-e1ce5dfab86c/IncomingWebhook/9f2c380bd65a4ca88e2821f6e3ff52a5/336f29b9-14a6-4ca1-977b-9c7e4881a6ad"
+  #         title: Version <h2>${{ steps.extract-from-pr.outputs.version }}</h2> Released
+  #         message: ${{ steps.extract-release-notes.outputs.release_notes }}
+  #         color: 28a745
+  #         buttons: |
+  #           View Repo ${{ github.server_url }}/${{ github.repository }}
+  #           View Release logs ${{ github.server_url }}/${{ github.repository }}/releases/tag/v${{steps.extract-from-pr.outputs.version}}
+  #           View Workflow ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
