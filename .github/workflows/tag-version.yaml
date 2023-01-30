@@ -22,17 +22,18 @@ jobs:
     name: Tag Version
     runs-on: ubuntu-latest
     steps:
-      - name: Get Version
+      - name: Get Version from pull request
+        if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'Version 20')
         shell: bash
         run: |
-          if [[ ${{ github.event.pull_request.merged }} == true && ${{ startsWith(github.event.pull_request.title, 'Version 20')}} ]]; 
-          then
-            echo "version=$(echo "${{ github.event.pull_request.title }}" | cut -c 9-20)" >> $GITHUB.ENV
-          elif [[ ${{ inputs.version }} ]]; then
-              echo "version=${{ inputs.version }}" >> $GITHUB.ENV
-          else
-            exit 1
-          fi
+          echo "version=$(echo "${{ github.event.pull_request.title }}" | cut -c 9-20)" >> $GITHUB.ENV
+      - name: Get Version from Input
+        if: github.event.workflow_dispatch
+        shell: bash
+        run: |
+          echo "version=${{ inputs.version }} >> $GITHUB.ENV
+      - name: echo Version
+        run: |
           echo $GITHUB.ENV
       # - name: Extract Version and changelog from Pull request
       #   id: extract-from-pr
