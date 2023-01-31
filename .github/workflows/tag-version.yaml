@@ -24,7 +24,6 @@ jobs:
   get_version:
     name: Get Version
     runs-on: ubuntu-latest
-    id: getVersion
     steps:
       - name: Get Version from pull request
         if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'Version 20')
@@ -39,6 +38,7 @@ jobs:
           echo "version=${{ inputs.version }}" >> $GITHUB_ENV
 
       - name: echo Version
+        id: getVersion
         run: |
           echo "$GITHUB_ENV"
           echo ${{ env.version }}
