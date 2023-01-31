@@ -100,7 +100,7 @@ jobs:
       - name: test
         run: |
           echo ${{ steps.extract-release-notes.outputs.release_notes == '' }}
-          echo ${{ steps.extract-release-notes.outputs.release_notes) == 0 }}
+          echo ${{ steps.extract-release-notes.outputs.release_notes == 0 }}
 
       - name: 📣 Send teams notification about release failure
         uses: simbo/msteams-message-card-action@latest
