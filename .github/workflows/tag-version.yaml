@@ -117,7 +117,7 @@ jobs:
       - name: echo status from earliar step
         run: |
           echo ${{ needs.tag_version.outputs.status }}
-          echo ${{ needs.tag_version.outputs.status !== 'success' }}
+          echo ${{ needs.tag_version.outputs.status != 'success' }}
           
       - name: echo verison for notify
         run: |
