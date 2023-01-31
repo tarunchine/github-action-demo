@@ -101,7 +101,7 @@ jobs:
         run: |
           echo "status=success" >> $GITHUB_OUTPUT
     outputs:
-      status: ${{ steps.getVersion.outputs.status }}
+      status: ${{ steps.tagVersion.outputs.status }}
 
   notify:
     name: Notify on team's channel
