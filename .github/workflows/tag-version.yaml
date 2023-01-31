@@ -63,6 +63,7 @@ jobs:
       - name: echo version from earliar step
         run: |
           echo ${{ needs.get_version.outputs.version }}
+          exit 1
 
       # - name: Checkout ${{ github.repository }}
       #   uses: actions/checkout@v3
@@ -97,52 +98,27 @@ jobs:
       #     body: ${{ steps.extract-release-notes.outputs.release_notes }}
       #     tag: 'v${{env.version }}'
       #     name: "Release: ${{ env.version }}"
-      - name: set status
-        id: tagVersion
-        run: |
-          echo "status=success" >> $GITHUB_OUTPUT
-    outputs:
-      status: ${{ steps.tagVersion.outputs.status }}
+      - name: 📣 Send teams notification about release failure
+        uses: simbo/msteams-message-card-action@latest
+        if: ${{ failure() }} 
+        with:
+          webhook: "https://jda365.webhook.office.com/webhookb2/6366d704-047d-47bf-89bb-9b4849f802f5@2ac36cee-0617-4ac0-bebf-e1ce5dfab86c/IncomingWebhook/9f2c380bd65a4ca88e2821f6e3ff52a5/336f29b9-14a6-4ca1-977b-9c7e4881a6ad"
+          color: dc3545
+          title: Released failed for version <h2>${{ needs.get_version.outputs.version }}</h2>
+          message: ${{ steps.extract-release-notes.outputs.release_notes }}
+          buttons: |
+            View Repo ${{ github.server_url }}/${{ github.repository }}
+            View Workflow ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
-  notify:
-    name: Notify on team's channel
-    runs-on: ubuntu-latest
-    needs: [get_version,tag_version]
-    if: ${{ always() }}
-    steps: 
-      - name: echo version from earliar step
-        run: |
-          echo ${{ needs.get_version.outputs.version }}
-      
-      - name: echo status from earliar step
-        run: |
-          echo ${{ needs.tag_version.outputs.status }}
-          echo ${{ needs.tag_version.outputs.status != 'success' }}
-          
-      - name: echo verison for notify
-        run: |
-          echo ${{ env.version }}
-      # - name: 📣 Send teams notification about release failure
-      #   uses: simbo/msteams-message-card-action@latest
-      #   if: ${{ failure() }} 
-      #   with:
-      #     webhook: "https://jda365.webhook.office.com/webhookb2/6366d704-047d-47bf-89bb-9b4849f802f5@2ac36cee-0617-4ac0-bebf-e1ce5dfab86c/IncomingWebhook/9f2c380bd65a4ca88e2821f6e3ff52a5/336f29b9-14a6-4ca1-977b-9c7e4881a6ad"
-      #     color: dc3545
-      #     title: Released failed for version <h2>${{ env.version }}</h2>
-      #     message: ${{ steps.extract-release-notes.outputs.release_notes }}
-      #     buttons: |
-      #       View Repo ${{ github.server_url }}/${{ github.repository }}
-      #       View Workflow ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-
-      # - name: 📣 Send teams notification about new Release
-      #   uses: simbo/msteams-message-card-action@latest
-      #   if: ${{ success() }}
-      #   with:
-      #     webhook: "https://jda365.webhook.office.com/webhookb2/6366d704-047d-47bf-89bb-9b4849f802f5@2ac36cee-0617-4ac0-bebf-e1ce5dfab86c/IncomingWebhook/9f2c380bd65a4ca88e2821f6e3ff52a5/336f29b9-14a6-4ca1-977b-9c7e4881a6ad"
-      #     title: Version <h2>${{ env.version }}</h2> Released
-      #     message: ${{ steps.extract-release-notes.outputs.release_notes }}
-      #     color: 28a745
-      #     buttons: |
-      #       View Repo ${{ github.server_url }}/${{ github.repository }}
-      #       View Release logs ${{ github.server_url }}/${{ github.repository }}/releases/tag/v${{env.version}}
-      #       View Workflow ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      - name: 📣 Send teams notification about new Release
+        uses: simbo/msteams-message-card-action@latest
+        if: ${{ success() }}
+        with:
+          webhook: "https://jda365.webhook.office.com/webhookb2/6366d704-047d-47bf-89bb-9b4849f802f5@2ac36cee-0617-4ac0-bebf-e1ce5dfab86c/IncomingWebhook/9f2c380bd65a4ca88e2821f6e3ff52a5/336f29b9-14a6-4ca1-977b-9c7e4881a6ad"
+          title: Version <h2>${{ needs.get_version.outputs.version }}</h2> Released
+          message: ${{ steps.extract-release-notes.outputs.release_notes }}
+          color: 28a745
+          buttons: |
+            View Repo ${{ github.server_url }}/${{ github.repository }}
+            View Release logs ${{ github.server_url }}/${{ github.repository }}/releases/tag/v${{env.version}}
+            View Workflow ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
