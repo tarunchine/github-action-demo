@@ -63,28 +63,27 @@ jobs:
       - name: echo version from earliar step
         run: |
           echo ${{ needs.get_version.outputs.version }}
-          exit 1
 
-      # - name: Checkout ${{ github.repository }}
-      #   uses: actions/checkout@v3
-      #   with:
-      #     fetch-depth: 0
+      - name: Checkout ${{ github.repository }}
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-      # - name: Check if tag already exist
-      #   run: |
-      #     if [ $(git tag -l "v${{ env.version }}") ]; then
-      #       echo "Tag already exists!"
-      #       exit 1
-      #     else
-      #       exit 0
-      #     fi
+      - name: Check if tag already exist
+        run: |
+          if [ $(git tag -l "v${{ needs.get_version.outputs.version }}") ]; then
+            echo "Tag already exists!"
+            exit 1
+          else
+            exit 0
+          fi
 
       # - name: Tag & Upload version commit
       #   run: |
       #     git config user.name github-actions
       #     git config user.email github-actions@github.com
-      #     git tag -a v${{ env.version }} -m "Version ${{ env.version }}"
-      #     git push origin v${{ env.version }}
+      #     git tag -a v${{ needs.get_version.outputs.version }} -m "Version ${{ needs.get_version.outputs.version }}"
+      #     git push origin v${{ needs.get_version.outputs.version }}
 
       # - name: Extract release notes
       #   id: extract-release-notes
@@ -96,8 +95,13 @@ jobs:
       #   uses: ncipollo/release-action@v1
       #   with:
       #     body: ${{ steps.extract-release-notes.outputs.release_notes }}
-      #     tag: 'v${{env.version }}'
-      #     name: "Release: ${{ env.version }}"
+      #     tag: 'v${{ needs.get_version.outputs.version }}'
+      #     name: "Release: ${{ needs.get_version.outputs.version }}"
+      - name: test
+        run: |
+          echo ${{ steps.extract-release-notes.outputs.release_notes == '' }}
+          echo ${{ Boolean(steps.extract-release-notes.outputs.release_notes) == 'false' }}
+
       - name: 📣 Send teams notification about release failure
         uses: simbo/msteams-message-card-action@latest
         if: ${{ failure() }} 
