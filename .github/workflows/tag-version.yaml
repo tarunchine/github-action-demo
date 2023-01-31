@@ -78,25 +78,26 @@ jobs:
             exit 0
           fi
 
-      # - name: Tag & Upload version commit
-      #   run: |
-      #     git config user.name github-actions
-      #     git config user.email github-actions@github.com
-      #     git tag -a v${{ needs.get_version.outputs.version }} -m "Version ${{ needs.get_version.outputs.version }}"
-      #     git push origin v${{ needs.get_version.outputs.version }}
+      - name: Tag & Upload version commit
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git tag -a v${{ needs.get_version.outputs.version }} -m "Version ${{ needs.get_version.outputs.version }}"
+          git push origin v${{ needs.get_version.outputs.version }}
 
-      # - name: Extract release notes
-      #   id: extract-release-notes
-      #   uses: ffurrer2/extract-release-notes@v1
-      #   with:
-      #     changelog_file: CHANGELOG.md
+      - name: Extract release notes
+        id: extract-release-notes
+        uses: ffurrer2/extract-release-notes@v1
+        with:
+          changelog_file: CHANGELOG.md
 
-      # - name: Create a new release
-      #   uses: ncipollo/release-action@v1
-      #   with:
-      #     body: ${{ steps.extract-release-notes.outputs.release_notes }}
-      #     tag: 'v${{ needs.get_version.outputs.version }}'
-      #     name: "Release: ${{ needs.get_version.outputs.version }}"
+      - name: Create a new release
+        uses: ncipollo/release-action@v1
+        with:
+          body: ${{ steps.extract-release-notes.outputs.release_notes }}
+          tag: 'v${{ needs.get_version.outputs.version }}'
+          name: "Release: ${{ needs.get_version.outputs.version }}"
+          
       - name: test
         run: |
           echo ${{ steps.extract-release-notes.outputs.release_notes == '' }}
