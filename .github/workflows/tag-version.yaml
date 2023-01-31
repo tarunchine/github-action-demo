@@ -55,7 +55,7 @@ jobs:
     name: Tag Version
     runs-on: ubuntu-latest
     needs: get_version
-    if: ${{ startsWith(env.version, '20') }}
+    if: startsWith(${{ env.version }}, '20') }}
     steps:
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v3
