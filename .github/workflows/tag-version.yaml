@@ -58,7 +58,6 @@ jobs:
     name: Tag Version
     runs-on: ubuntu-latest
     needs: get_version
-    id: tag_version
     steps:
       - name: echo version from earlier step
         run: |
