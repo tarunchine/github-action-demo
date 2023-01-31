@@ -97,6 +97,11 @@ jobs:
       #     body: ${{ steps.extract-release-notes.outputs.release_notes }}
       #     tag: 'v${{env.version }}'
       #     name: "Release: ${{ env.version }}"
+      - name: set status
+        run: |
+          echo "status=success" >> $GITHUB_OUTPUT
+    outputs:
+      status: ${{ steps.getVersion.outputs.status }}
 
   notify:
     name: Notify on team's channel
@@ -107,6 +112,10 @@ jobs:
       - name: echo version from earliar step
         run: |
           echo ${{ needs.get_version.outputs.version }}
+      
+      - name: echo status from earliar step
+        run: |
+          echo ${{ needs.tag_version.outputs.status }}
 
       - name: echo verison for notify
         run: |
