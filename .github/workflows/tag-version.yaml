@@ -42,7 +42,7 @@ jobs:
         run: |
           echo "$GITHUB_ENV"
           echo ${{ env.version }}
-          echo "::set-output name=version::${env.version}"
+          echo "::set-output name=version::${{env.version}}"
 
       - name: Check version format
         run: |
