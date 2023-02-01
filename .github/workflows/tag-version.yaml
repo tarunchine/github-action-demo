@@ -126,11 +126,11 @@ jobs:
           echo "version=${{ needs.get_version.outputs.version }}" >> $GITHUB_ENV
           echo "status=${{ needs.get_version.outputs.status }}" >> $GITHUB_ENV
 
-          if [[ "${{ needs.get_version.outputs.releaseNotes }}" == "" ]]; 
+          if [[ "${{ needs.get_version.outputs.releaseNotes }}" != "" ]]; 
           then
-            echo "empty";
+            echo "releaseNotes=${{ needs.get_version.outputs.releaseNotes }}" >> $GITHUB_ENV
           else
-            echo "non empty";
+            echo "releaseNotes=No Changelog Available" >> $GITHUB_ENV
           fi
           
       - name: echo env 
