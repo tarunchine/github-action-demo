@@ -131,9 +131,8 @@ jobs:
             echo "empty";
           else
             echo "non empty";
-
+          fi
           
-      
       - name: echo env 
         id: getVersion
         run: |
