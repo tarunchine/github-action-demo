@@ -124,11 +124,11 @@ jobs:
           echo ${{ needs.tag_version.outputs.status }}
           echo ${{ needs.tag_version.outputs.releaseNotes }}
           echo "version=${{ needs.get_version.outputs.version }}" >> $GITHUB_ENV
-          echo "status=${{ needs.get_version.outputs.status }}" >> $GITHUB_ENV
+          echo "status=${{ needs.tag_version.outputs.status }}" >> $GITHUB_ENV
 
-          if [[ "${{ needs.get_version.outputs.releaseNotes }}" != "" ]]; 
+          if [[ "${{ needs.tag_version.outputs.releaseNotes }}" != "" ]]; 
           then
-            echo "releaseNotes=${{ needs.get_version.outputs.releaseNotes }}" >> $GITHUB_ENV
+            echo "releaseNotes=${{ needs.tag_version.outputs.releaseNotes }}" >> $GITHUB_ENV
           else
             echo "releaseNotes=No Changelog Available" >> $GITHUB_ENV
           fi
