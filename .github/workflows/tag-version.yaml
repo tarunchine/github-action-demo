@@ -55,7 +55,7 @@ jobs:
       version: ${{ steps.getVersion.outputs.version }}  
 
   tag_version:
-    name: Tag Version
+    name: Tag Version and Release
     runs-on: ubuntu-latest
     needs: get_version
     steps:

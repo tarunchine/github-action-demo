@@ -62,16 +62,6 @@ jobs:
         with:
           changelog_file: CHANGELOG.md
 
-      # - name: Extract release notes via diff method
-      #   id: generate_notes
-      #   uses: anmarkoulis/commitizen-changelog-reader@master
-      #   with:
-      #     tag_name: "refs/tags/v${{ inputs.version }}"
-      #     changelog: CHANGELOG.md
-
-      # - name: Echo notes
-      #   run: echo "${{join(fromJson(steps.generate_notes.outputs.notes).notes, '')}}"
-
       - name: Create Pull Request with changelog
         uses: peter-evans/create-pull-request@v4
         with:
