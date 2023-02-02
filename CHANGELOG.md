@@ -6,7 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [2023.4.6] - 2023-01-29
+## [2023.6.1] - 2023-01-29
+
+### Added
+
+-   Add a filter to the Overview page that shows if the VascoDB is running in Snowflake or Exasol. 
+-   Added data generators for cypress tests
+
+### Changed
+
+-   Updated the default number rows to display 50 results.
+-   Upgrade requirements (including fastAPI)
 
 ## [2023.4.1] - 2023-01-29
 
