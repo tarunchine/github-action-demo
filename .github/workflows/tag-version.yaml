@@ -137,7 +137,7 @@ jobs:
         run: |
           echo ${{ env.version }}
           echo ${{ env.status }}
-          printf ${{ env.releaseNotes }}
+          printf "%s\n" "${{ env.releaseNotes }}"
 
       - name: 📣 Send teams notification about release failure
         uses: simbo/msteams-message-card-action@latest
