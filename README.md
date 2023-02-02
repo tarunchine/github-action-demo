@@ -1,11 +1,13 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/f0bb36a3fa704a0fbf0c9954e6093f34)](https://www.codacy.com/gh/tarunchine/github-action-demo/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tarunchine/github-action-demo&amp;utm_campaign=Badge_Grade)
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/f0bb36a3fa704a0fbf0c9954e6093f34)](https://www.codacy.com/gh/tarunchine/github-action-demo/dashboard?utm_source=github.com&utm_medium=referral&utm_content=tarunchine/github-action-demo&utm_campaign=Badge_Coverage)
+![](https://github.com/tarunchine/github-action-demo/version)
+[!Deploy](https://github.com/tarunchine/github-action-demo/version)
+
 
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-![](https://github.com/tarunchine/github-action-demo/version)
 
 
 ## Available Scripts
