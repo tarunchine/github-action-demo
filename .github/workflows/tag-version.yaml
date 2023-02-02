@@ -120,9 +120,6 @@ jobs:
     steps:
       - name: echo inputs from earlier step
         run: |
-          echo ${{ needs.get_version.outputs.version }}
-          echo ${{ needs.tag_version.outputs.status }}
-          echo ${{ needs.tag_version.outputs.releaseNotes }}
           echo "version=${{ needs.get_version.outputs.version }}" >> $GITHUB_ENV
           echo "status=${{ needs.tag_version.outputs.status }}" >> $GITHUB_ENV
 
