@@ -125,7 +125,7 @@ jobs:
 
           if [[ "${{ needs.tag_version.outputs.releaseNotes }}" != "" ]]; 
           then
-             echo "releaseNotes<<EOF" >> $GITHUB_ENV
+            echo "releaseNotes<<EOF" >> $GITHUB_ENV
             echo "${{ needs.tag_version.outputs.releaseNotes }}" >> $GITHUB_ENV
             echo "EOF" >> $GITHUB_ENV
           else
@@ -137,7 +137,7 @@ jobs:
         run: |
           echo ${{ env.version }}
           echo ${{ env.status }}
-          echo ${{ env.releaseNotes }}
+          printf ${{ env.releaseNotes }}
 
       - name: 📣 Send teams notification about release failure
         uses: simbo/msteams-message-card-action@latest
