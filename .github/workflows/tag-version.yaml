@@ -125,7 +125,7 @@ jobs:
 
           if [[ "${{ needs.tag_version.outputs.releaseNotes }}" != "" ]]; 
           then
-            printf "releaseNotes=%s\n" "${{ env.releaseNotes }}" >> $GITHUB_ENV
+            printf "releaseNotes=%s\n" "${{ needs.tag_version.outputs.releaseNotes }}" >> $GITHUB_ENV
           else
             echo "releaseNotes=No Changelog Available" >> $GITHUB_ENV
           fi
