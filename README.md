@@ -1,6 +1,8 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/f0bb36a3fa704a0fbf0c9954e6093f34)](https://www.codacy.com/gh/tarunchine/github-action-demo/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tarunchine/github-action-demo&amp;utm_campaign=Badge_Grade)
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/f0bb36a3fa704a0fbf0c9954e6093f34)](https://www.codacy.com/gh/tarunchine/github-action-demo/dashboard?utm_source=github.com&utm_medium=referral&utm_content=tarunchine/github-action-demo&utm_campaign=Badge_Coverage)
 ![](https://byob.yarr.is/tarunchine/github-action-demo/version)
+![](https://byob.yarr.is/tarunchine/github-action-demo/version1)
+
 
 
 # Getting Started with Create React App
